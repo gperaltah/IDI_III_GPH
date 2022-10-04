@@ -1,7 +1,7 @@
 ---
-title: "Plantilla en Quarto"
-author: Emmanuel Alcalá
-date: 14/07/2022
+title: "Predicción de Resultados de la NFL Utilizando Métodos de Aprendizaje Supervisado"
+author: Gonzalo Peralta
+date: 02/10/2022
 format:
   pdf: 
     # cite-method: biblatex
@@ -15,19 +15,9 @@ jupyter: python3
 fig-pos: 'h'
 ---
 
-Requerimientos para usar Quarto 
-
-1. [Instalar quarto](https://quarto.org/docs/get-started/)
-2. Instalar un editor de texto. Recomiendo [VScode](https://quarto.org/docs/get-started/hello/vscode.html). Si es en VScode, instalar la [extensión ](https://marketplace.visualstudio.com/items?itemName=quarto.quarto).
-  - Para usar con RStudio, ver [aquí](https://quarto.org/docs/get-started/hello/rstudio.html).
-3. Si se va a trabajar con Python debe configurarse apropiadamente. En VScode seleccionar el intérprete de Python que se quiere usar (e.g., de conda).
-4. Para renderizar en pdf debe instalarse `tinytex`. Abrir terminal y escribir 
-
-`quarto tools install tinytex`
-
 # Título
 
-El título de tu projecto. Debe ser conciso y reflejar el argumento principal. En ocasiones es bueno plantearlo como pregunta, otras veces como una afirmación.
+Predicción de Resultados de la NFL Utilizando Métodos de Aprendizaje Supervisado
 
 # Introducción
 
@@ -41,7 +31,7 @@ Para algunos ejemplos de reportes técnicos de proyectos, revisa los proyectos f
 - [2019](http://cs229.stanford.edu/proj2019aut/).
 - [2014](http://cs229.stanford.edu/projects2014.html).
 
-## Definición del problema o pregunta
+## Formulación del Problema
 
 Se plantea crear un clasificador capaz de predecir las probabilidades de que un determinado equipo de fútbol americano de la liga profesional NFL gane un determinado partido antes de que ocurra, esto con mayor precisión que los métodos utilizados actualmente por apostadores tales como el modelo desarrollado por la plataforma FiveThirtyEight.
 
@@ -49,10 +39,10 @@ En un sentido técnico se puede expresar de la siguiente manera:
 
 Sea $X=x_1, x_2,..., x_n$ un vector de datos correspondiente a un enfrentamiento entre dos equipos de la liga profesional de fútbol americano NFL (Local y Visitante), y $C_k$ tal que:
 $$
-C_0 = Derrota equipo local
+C_0 = Derrota \space equipo \space local
 $$
 $$
-C_1 = Victoria equipo local
+C_1 = Victoria \space equipo \space local
 $$
 
 $C_k$ es la variable que de pretende predecir a partir de $X$, así mismo, a cada $C_k$ le corresponde una probabilidad $P(C_k = C_1)$ donde $C_1 = 1 - C_0$
@@ -76,6 +66,10 @@ En cuanto a la evaluación del modelo, se utilizarán las métricas "Accuracy", 
 El objetivo mínimo es el de superar la precisión alcanzada por el algoritmo de FiveThirtyEight, que el año pasado registró un 62% de juegos clasificados correctamente (2021).
 
 # Datos
+
+Dado el objetivo, se puede deducir que es importante disponer de una fuente de información vasta y que contenga variables significativas para la correcta clasificación.
+
+La base de datos que se utilizará proviene de un repositorio creado por entusiastas del análisis estadístico en el fútbol americano, y contiene información recopilada "Play By Play", es decir que cada linea de la matriz corresponde a una sola jugada en un determinado juego, esto implica que la base de datos contiene alrededor de 50,000 linead por cada temporada, así como 372 variables de decisión. Se puede acceder al repositorio a través de una librería de Python llamada "nfl-data-py".
 
 Aquí describes los datos que usaste, sus fuentes, variables, etc. Deberá contener la siguiente información:
 
