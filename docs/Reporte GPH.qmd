@@ -11,7 +11,6 @@ format:
 bibliography: references.bib
 csl: apa.csl
 lang: es
-jupyter: python3
 fig-pos: 'h'
 ---
 
@@ -69,14 +68,54 @@ El objetivo mínimo es el de superar la precisión alcanzada por el algoritmo de
 
 Dado el objetivo, se puede deducir que es importante disponer de una fuente de información vasta y que contenga variables significativas para la correcta clasificación.
 
-La base de datos que se utilizará proviene de un repositorio creado por entusiastas del análisis estadístico en el fútbol americano, y contiene información recopilada "Play By Play", es decir que cada linea de la matriz corresponde a una sola jugada en un determinado juego, esto implica que la base de datos contiene alrededor de 50,000 linead por cada temporada, así como 372 variables de decisión. Se puede acceder al repositorio a través de una librería de Python llamada "nfl-data-py".
+La base de datos que se utilizará proviene de un repositorio creado por entusiastas del análisis estadístico en el fútbol americano, y contiene información recopilada "Play By Play", es decir que cada linea de la matriz corresponde a una sola jugada en un determinado juego, esto implica que la base de datos contiene alrededor de 50,000 lineas por cada temporada, así como 372 variables de decisión. Se puede acceder al repositorio a través de una librería de Python llamada "nfl-data-py".
 
-Aquí describes los datos que usaste, sus fuentes, variables, etc. Deberá contener la siguiente información:
+Una vez realizado el análisis de selección de variables se seleccionaron las siguientes:
 
-1. Justificación concisa de por qué el conjunto de datos elegido es relevanta para el problema elegido.
-2. Describir las fuentes de los datos.
-3. Describir qué procesamiento se hizo para dejarlos en estado usable.
-4. Describir las variables que contienen los datos (e.g., codebook, en caso de que se usen abreviaturas para las variables).
+| Variable | Descripción |
+|:---:|---|
+| game_id | Identificador de diez dígitos   para el juego de la NFL. |
+| home_team | Abreviatura para el equipo   local. |
+| away_team | Abreviatura para el equipo de   visitante. |
+| season_type | Reg 'o' Post 'que indica si el   juego pertenece a la temporada regular o playoffs. (Dummy) |
+| season | Número de 4 dígitos que indica a   qué temporada pertenece el juego. |
+| week | Semana de la temporada. |
+| game_date | Fecha del juego. |
+| home_score | Puntos totales anotados por el   equipo local. |
+| away_score | Puntos totales anotados por el   equipo visitante. |
+| result | La diferencia entre Home_Score y   Away_score, es el resultado del juego desde la perspectiva del equipo local. |
+| div_game | Indicador binario para si el   juego dado era un juego entre rivales de división. |
+| location | Indica si el equipo local jugaba   en su estadio o en un sitio neutral (Como fuera de los EEUU o en un estadio   prestado). (Dummy) |
+| roof | Indica el tipo del techo del   estadio en el que se jugó el juego. (Dummy) |
+| surface | En qué tipo de terreno se jugó   el juego. (Dummy) |
+| sp | Indicador binario de si se   produjo o no una puntuación en la jugada. |
+| yards_gained | Yardas numéricas ganadas (o   perdidas) por el equipo con posesión, excluyendo los yardas obtenidas a   través de recuperaciones de balón suelto y laterales. |
+| yards_after_catch | Valor numérico para la distancia   en yardas perpendiculares desde la línea donde el receptor hizo la recepción   hasta donde terminó la jugada. |
+| epa | Puntos esperados agregados (EPA)   por el equipo con posesión para la jugada dada. |
+| air_epa | EPA solo de las yardas aéreos.   Esto representa el valor real proporcionado a través del aire. Para   incompletos, esto representa el valor hipotético que podría haberse agregado   a través del aire si se hubiera completado el pase. |
+| yac_epa | EPA de los yardas después de la   recepción. Para incompletos, esto representa la diferencia entre la Air_EPA   hipotética y la EPA real de la jugada. |
+| comp_air_epa | EPA solo desde las yardas aéreas   solo para pases completos. |
+| comp_yac_epa | EPA de las yardas después de la   captura solo para pases completos. |
+| wpa | Probabilidad de ganar agregado   (WPA) para el equipo con posesión. |
+| vegas_wpa | Probabilidad de ganar agregado   (WPA) para el equipo con posesión ajustado para los momios de Las Vegas. |
+| air_wpa | WPA con la misma lógica que   Air_EPA. |
+| yac_wpa | WPA con la misma lógica que   YAC_EPA. |
+| comp_air_wpa | El AIR_WPA solo de pases   completos. |
+| comp_yac_wpa | El YAC_WPA solo de pases   completos. |
+| third_down_converted | Indicador binario para si el   primer down se convirtió en el tercer intento. |
+| fourth_down_converted | Indicador binario para si el   primer down se convirtió en el cuarto intento. |
+| interception | Indicador binario para si el   pase fue interceptado. |
+| fumble_lost | Indicador binario para si el   balón suelto se perdió. |
+| qb_hit | Indicador binario si el QB fue   golpeado en la jugada. |
+| rush_attempt | Indicador binario para si la   jugada fue una carrera por tierra. |
+| pass_attempt | Indicador binario para si la   jugada fue un intento de pase (incluye capturas). |
+| sack | Indicador binario para si la   jugada terminó en una captura de QB. |
+| touchdown | Indicador binario para si la   jugada dio como resultado un TD. |
+| success | Indicador binario para si   el  EPA > 0 en la jugada. |
+| penalty | Indicador binario de si ocurrió   o no un castigo. |
+| penalty_yards | Yardas ganadas (o perdidas) por   el equipo con posesión gracias al castigo. |
+
+Así mismo, fue necesario realizar una serie de modificaciones al dataset original totalizando las estadísticas por cada juego (Esto se realizo por cada uno de los equipos, en este caso, visitante y local) de tal forma que se obtiene la información semanal, este dataset es el que será utilizado para realizar la predicción.
 
 # Métodos y Análisis
 
@@ -97,23 +136,6 @@ Quarto soporta renderización de ecuaciones usando la sintaxis de \LaTeX. Ver es
 En esta sección se colocan los resultados principales, como tablas de comparación, gráficos, etc. Por ejemplo, si se probó un algoritmo con respecto a otros tres, se coloca la ejecución en diversas métricas. 
 
 Las figuras y tablas deben ir acompañadas de una etiqueta y una breve descripción. Se pueden referenciar usando `@{label}` en donde `label` en este caso específico es `fig-polar`. La referencia renderizada se verá así @fig-polar.
-
-```{python}
-#| label: fig-polar
-#| echo: false
-#| fig-cap: "Esta es la leyenda de una figura."
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
 
 Las tablas pueden hacerse con Markdown
 
