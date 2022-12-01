@@ -115,7 +115,9 @@ Una vez realizado el análisis de selección de variables se seleccionaron las s
 | penalty | Indicador binario de si ocurrió   o no un castigo. |
 | penalty_yards | Yardas ganadas (o perdidas) por   el equipo con posesión gracias al castigo. |
 
-Así mismo, fue necesario realizar una serie de modificaciones al dataset original totalizando las estadísticas por cada juego (Esto se realizo por cada uno de los equipos, en este caso, visitante y local) de tal forma que se obtiene la información semanal, este dataset es el que será utilizado para realizar la predicción.
+Así mismo, fue necesario realizar una serie de modificaciones al dataset original totalizando las estadísticas por cada juego (Esto se realizo por cada uno de los equipos, en este caso, visitante y local) de tal forma que se obtiene la información semanal, este dataset resultante tiene como máximo el numero total de juegos por temporada, que asciende a 2850 filas y 74 variables.
+
+La pérdida de datos sólo se presentó en las variables 'surface' y 'roof', la forma de imputar, dada la naturaleza categórica de la variable y una predominancia clara de una categoría en paricular para cada variable, fue el completar los datos vacíos con el valor más frecuente.
 
 # Métodos y Análisis
 
